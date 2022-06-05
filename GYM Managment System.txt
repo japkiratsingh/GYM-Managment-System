@@ -1,0 +1,96 @@
+create database GYM; 
+use GYM;
+create table customer
+(customer_ID varchar(10) primary key not null,
+t_id int,
+n_id int,
+customer_name varchar(20) not null,
+Customer_dob date not null,
+customer_BMI varchar (10) not null, 
+customer_Age int not null, 
+customer_Sex char not null,
+customer_Mobile varchar(50) not null,
+customer_email varchar(20)
+);
+alter table customer add constraint fk_customer foreign key (t_id) references trainer (t_id);
+alter table customer add constraint fk1_customer foreign key (n_id) references nutritionist (n_id); 
+create table Nutritionist
+(n_ID int primary key not null, 
+ s_no  int,
+n_Name varchar(20) not null, n_salary int not null, 
+n_mobile varchar(50) not null
+);
+alter table nutritionist add constraint fk_nutritionist foreign key (s_no) references protein_supplement (s_no); 
+create table trainer
+(t_ID int primary key not null, e_no  int ,
+t_Name varchar(20) not null, t_salary int not null, 
+t_mobile varchar(50) not null
+);
+alter table trainer add constraint fk_trainer foreign key (e_no) references equipment (e_no); 
+create table equipment
+(E_no int primary key not null,
+ E_name varchar(50) not null,      E_cost int not null,
+E_type varchar(50) not null, is_sellable char not null
+);
+create table protein_supplement (s_no int primary key not null, s_name varchar(50) not null,
+s_cost int not null,
+s_type varchar(50) not null, is_sellable char not null
+);
+insert into customer values
+('101','1001','2004','Abhilesh','1996-07-16','25.6', 26 ,'M', 9875632140 ,'Abhilesh@gmail.com'),
+('102','1003','2002','Dipika','1997-08-17','26.7', 25 ,'F', 9900125638 ,'Japeshi@gmail.com'),
+('103','1005','2001','Deepesh','1998-09-18','27.8', 24 ,'M', 9955662244 ,'Deepesh@gmail.com'),
+('104','1002','2005','Avni','1999-10-19','28.9', 23 ,'F', 9994445550 ,'Sacheshi@gmail.com'),
+('105','1002','2003','Adward','1993-10-28','28.4', 28 ,'M', 9593859759 ,'adward@gmail.com'),
+('106','1004','2002','Prakash','1996-06-19','21.9', 25 ,'M', 7060890499 ,'prakash@gmail.com'),
+('107','1001','2004','Nandini','1997-04-11','23.3', 24 ,'F', 8998989348 ,'nandini@gmail.com'),
+('108','1005','2002','Shristi','1996-11-19','23.9', 25 ,'F', 9978878905 ,'shristi@gmail.com'),
+('109','1004','2004','Kartik','1995-12-29','20.4', 26 ,'M', 9758978973 ,'kartik@gmail.com'),
+('110','1001','2001','Mohammad','1999-01-18','25.6', 23 ,'M', 8573477005 ,'mohammad@gmail.com'),
+('111','1003','2003','Ayushi','1994-10-08','26.8', 27 ,'F', 8436736795 ,'ayushi@gmail.com'),
+('112','1003','2001','Mithun','1990-06-05','23.0', 31 ,'M', 8995681150 ,'mithun@gmail.com'),
+('113','1002','2003','Vandana','1990-11-19','28.1', 31 ,'F', 7320005333 ,'vandana@gmail.com'),
+('114','1004','2005','Rekha','1992-07-20','24.4', 29 ,'F', 9953587283 ,'rakha@gmail.com'),
+('115','1005','2005','Vishnu','1993-12-10','27.5', 28 ,'M', 7125705000 ,'vishnu@gmail.com');
+insert into Nutritionist values
+(2001,11,'manjeet','40000','9001235648'),
+(2002,12,'kanmeet','44000','9532011102'),
+(2003,14,'sanjeet','40000','7060923286'),
+(2004,11,'lovneet','42000','9987665043'),
+(2005,12,'bhavneet', '50000','9938897777');
+insert into trainer values 
+(1001,01,'kankirat',47000,'9402693726'),
+(1002,03,'ranpreet',40000,'9830236906'),
+(1003,04,'tanmeet',45000,'9192495682'),
+(1004,02,'banjeet',50000,'9594824870'),
+(1005,05,'sandeep',42000,'9114938606'); 
+insert into equipment values
+('01','Flexnest ® Flexbike','25000','Cardio','Y'),
+('02','Shoulder Fitnees Machine','17000','Shoulder','N'),
+('03','Bodyfit Gym Equipment','5795','Chest','Y'),
+('04','Plate Loaded Legg press','80000','Legs','N'),
+('05','Flat bench press','25000','upper body','Y'),
+('06','Hack squat','12000','lower body','Y'); 
+insert into protein_supplement values
+('11','ISO Pro','1800','1.5KG Mango Flavour','Y'),
+('12','Muscle Blaze','3300','3KG Unflavoured','Y'),
+('13','Best Choice','500','450GM Chocolate Flavoured','Y'),
+('14','Health Cart','3600','3KG Strawberry Flavoured','Y'),
+('15','crazybulk tri','2500','2KG orange Flavoured','Y');
+
+
+
+/*****SOME QUERIES******/
+Q1. Details of male customer
+select * from customer where customer_sex = 'M';
+Q2. Details o Nutritionist having salary > than avg salary of nutritionist.
+select * from nutritionist where n_salary > (select avg(n_salary) from nutritionist);
+Q3. Trainers whose name starts with ‘J’
+select * from trainer where t_name like '%j';
+Q4.Nutritionist and Trainer details for deepesh
+select * from customer,trainer, nutritionist where customer_name = 'deepesh' and customer.t_id = trainer.t_id and customer.n_id = nutritionist.n_id;
+Q5. Count of Male customers
+Select count(*) as Male_cutomers from customer where customer_sex = ‘M’;
+Q6. Count of Female customers
+Select count(*) as Female_cutomers from customer where customer_sex = ‘F’;
+
